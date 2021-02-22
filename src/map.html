@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenstreetMap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+   <!-- css -->
+   <style>
+       #maCarte{
+           height: 400px;
+       }
+   </style>
+</head>
+<body>
+    <button><a href="index.html">page principale</a></button>
+
+    <div id="maCarte"></div>
+
+    <!-- fichier javascript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script>
+
+        var villes = [];
+        var tableauMarqueurs = [];
+        const { ipcRenderer} = require ('electron');
+
+        ipcRenderer.send('getVille');
+
+        //initialiser la carte et charger les tuiles
+        var carte = L.map('maCarte').setView([46.449, 2.21], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbl - rendu <a href="//openstreetmap.fr">OSM France</a>',
+            minZoom: 1,
+            maxZoom: 15
+        }).addTo(carte);
+
+    
+        ipcRenderer.on('getVilleBack', (e, args) => {
+            villes = JSON.parse(args)
+            //on parcourt les villes
+             villes.forEach(ville => {
+                //creation du marqueur et avec une popup
+                var marqueur = L.marker([ville.latitude, ville.longitude]).addTo(carte);
+                marqueur.bindPopup("<p>"+ville.name+"</p>");
+    
+                //on ajoute le marqueur au tableau
+                tableauMarqueurs.push(marqueur);
+            })
+        });
+
+        //on regroupe les marqueurs dans un groupe liflet
+        var group = new L.featureGroup(tableauMarqueurs);
+
+        //on adapte le zoom au groupe
+        //carte.fitBounds(group.getBounds().pad(0.5));
+
+       
+    </script>
+
+</body>
+</html>

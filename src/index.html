@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Office de Tourisme</title>
+    <link rel="stylesheet" href="ui/app.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+    <h1>Bienvenue en baie de Morlaix</h1>
+
+    <form id="taskForm">
+
+        <div class="mb-3">
+          <input type="text" id="taskName" class="form-control" placeholder="nom" autofocus >
+        </div>
+        <div class="mb-3">
+            <input type="text" id="taskLatitude" class="form-control" placeholder="latitude" >
+        </div>
+        <div class="mb-3">
+            <input type="text" id="taskLongitude" class="form-control" placeholder="longitude" >
+        </div>
+        <button class="btn btn-primary">enregistrer</button>
+    
+    </form>
+    <p></p>
+    <button><a href="map.html">voir la carte</a></button>
+    </div>
+    <ul id="taskList"></ul>
+    <br>
+    <script src="ui/app.js"></script>
+</body>
+</html>
+
+
